@@ -1,8 +1,8 @@
-const express=require('express')
-const app=express();
+const express = require('express')
+const app = express();
 const dotenv = require('dotenv').config();
+const port = process.env.PORT || 5000; 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const port = process.env.PORT || 5000;
 
 
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.dhtqvw7.mongodb.net/?retryWrites=true&w=majority`;
@@ -18,6 +18,13 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
+    const Products = client.db("tea-and-coffee").collection("allproducts");
+
+
+    app.get('/allproducts', async (req, res) => {
+      const result =await Products.find().toArray();
+      res.send(result)
+    })
 
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
@@ -32,9 +39,9 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/',(req,res)=>{
-    res.send('Hello world')
+app.get('/', (req, res) => {
+  res.send('Hello world')
 })
-app.listen(port,()=>{
-    console.log(`Example app listening on port ${port}`)
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
 })
