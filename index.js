@@ -2,7 +2,7 @@ const express = require('express')
 const app = express();
 const dotenv = require('dotenv').config();
 const port = process.env.PORT || 5000; 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.dhtqvw7.mongodb.net/?retryWrites=true&w=majority`;
@@ -20,11 +20,21 @@ async function run() {
 
     const Products = client.db("tea-and-coffee").collection("allproducts");
 
-
+  //  Get All Data
     app.get('/allproducts', async (req, res) => {
       const result =await Products.find().toArray();
       res.send(result)
     })
+
+  //  Get ID Data
+  app.get('/product/:id', async(req,res)=>{
+    const id=req.params.id;
+    const query={_id : new ObjectId(id)}
+    const result= await Products.findOne(query);
+    res.send(result)
+  })
+
+
 
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
