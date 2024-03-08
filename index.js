@@ -2,10 +2,13 @@ const express = require('express')
 const app = express();
 const dotenv = require('dotenv').config();
 const cors = require("cors");
+var cookieParser = require('cookie-parser')
 const port = process.env.PORT || 5000; 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+app.use(express.json());
+app.use(cors('http://localhost:5173/'));
+app.use(cookieParser())
 
-app.use(cors());
 
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@cluster0.dhtqvw7.mongodb.net/?retryWrites=true&w=majority`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -41,7 +44,12 @@ async function run() {
     const result =await Products.deleteOne(query);
     res.send(result) 
   })
-
+ 
+  app.post('/addproduct',async(req,res)=>{
+    const document = req.body;
+      const result=await Products.insertOne(document)
+      res.send(result)
+  })
 
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
