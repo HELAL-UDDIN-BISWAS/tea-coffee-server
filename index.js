@@ -52,13 +52,16 @@ async function run() {
       res.send(result)
   })
 
-  // Add to cart
+  // Add To Cart
   app.post('/addcartproduct',async(req,res)=>{
     const document=req.body;
     const result= await ProductCart.insertOne(document);
     res.send(result)
   })
-
+app.get('/cartdata',async(req,res)=>{
+ const result= await ProductCart.find.toArray();
+ res.send(result)
+})
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     // Send a ping to confirm a successful connection
