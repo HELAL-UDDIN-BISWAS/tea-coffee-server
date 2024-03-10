@@ -23,6 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const Products = client.db("tea-and-coffee").collection("allproducts");
+    const ProductCart = client.db("tea-and-coffee").collection("productcart");
 
   //  Get All Data
     app.get('/allproducts', async (req, res) => {
@@ -49,6 +50,13 @@ async function run() {
     const document = req.body;
       const result=await Products.insertOne(document)
       res.send(result)
+  })
+
+  // Add to cart
+  app.post('/addcartproduct',async(req,res)=>{
+    const document=req.body;
+    const result= await ProductCart.insertOne(document);
+    res.send(result)
   })
 
     // Connect the client to the server	(optional starting in v4.7)
