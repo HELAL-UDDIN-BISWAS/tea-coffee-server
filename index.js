@@ -25,6 +25,7 @@ async function run() {
     const Products = client.db("tea-and-coffee").collection("allproducts");
     const ProductCart = client.db("tea-and-coffee").collection("productcart");
     const userPurchaseProduct = client.db("tea-and-coffee").collection("purchaseproduct");
+    const allPurchaseProduct = client.db("tea-and-coffee").collection("allpurchaseproduct");
 
     //  Get All Data
     app.get('/allproducts', async (req, res) => {
@@ -68,6 +69,11 @@ async function run() {
  app.post("/adduserproduct",async(req,res)=>{
   const document =req.body;
   const result=await userPurchaseProduct.insertOne(document);
+  res.send(result)
+ })
+ app.post("/allpurchaseproduct",async(req,res)=>{
+  const document = req.body;
+  const result =await allPurchaseProduct.insertOne(document);
   res.send(result)
  })
     // Connect the client to the server	(optional starting in v4.7)
