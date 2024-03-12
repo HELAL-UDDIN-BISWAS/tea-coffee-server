@@ -23,6 +23,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const Products = client.db("tea-and-coffee").collection("allproducts");
+    const AllUsers = client.db("tea-and-coffee").collection("alluser");
     const ProductCart = client.db("tea-and-coffee").collection("productcart");
     const userPurchaseProduct = client.db("tea-and-coffee").collection("purchaseproduct");
     const allPurchaseProduct = client.db("tea-and-coffee").collection("allpurchaseproduct");
@@ -51,6 +52,17 @@ async function run() {
     app.post('/addproduct', async (req, res) => {
       const document = req.body;
       const result = await Products.insertOne(document)
+      res.send(result)
+    })
+    // ALL USERS
+    app.post("/addnewuser",async(req,res)=>{
+      const document = req.body;
+      console.log(document)
+      const result = await AllUsers.insertOne(document);
+      res.send(result)
+    })
+    app.get("/alluser",async(req,res)=>{
+      const result=await AllUsers.find().toArray();
       res.send(result)
     })
 
