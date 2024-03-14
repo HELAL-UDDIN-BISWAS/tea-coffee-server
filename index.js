@@ -57,7 +57,6 @@ async function run() {
     // ALL USERS
     app.post("/addnewuser",async(req,res)=>{
       const document = req.body;
-      console.log(document)
       const result = await AllUsers.insertOne(document);
       res.send(result)
     })
@@ -77,10 +76,14 @@ async function run() {
       res.send(result)
     })
     // Add To Cart
-// User Product
+// User Purchase Product
  app.post("/adduserproduct",async(req,res)=>{
   const document =req.body;
   const result=await userPurchaseProduct.insertOne(document);
+  res.send(result)
+ })
+ app.get('/userpurchaseproduct',async(req,res)=>{
+  const result=await userPurchaseProduct.find().toArray();
   res.send(result)
  })
  app.post("/allpurchaseproduct",async(req,res)=>{
