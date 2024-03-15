@@ -41,6 +41,11 @@ async function run() {
       const result = await Products.findOne(query);
       res.send(result)
     })
+// get 6 data
+app.get('/lastedproduct',async(req,res)=>{
+ const result= await ProductCart.find().limit(6).sort({count: -1}).toArray();
+ res.send(result);
+})
 
     app.delete('/deleteproduct/:id', async (req, res) => {
       const id = req.params.id;
