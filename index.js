@@ -29,6 +29,8 @@ async function run() {
     const allPurchaseProduct = client.db("tea-and-coffee").collection("allpurchaseproduct");
 
     //  Get All Data
+   
+
     app.get('/allproducts', async (req, res) => {
       const result = await Products.find().toArray();
       res.send(result)
@@ -43,9 +45,9 @@ async function run() {
     })
 // get 6 data
 app.get('/lastedproduct',async(req,res)=>{
- const result= await ProductCart.find().limit(6).sort({count: -1}).toArray();
- res.send(result);
-})
+  const result= await Products.find().limit(6).sort({count: -1}).toArray();
+  res.send(result);
+ })
 
     app.delete('/deleteproduct/:id', async (req, res) => {
       const id = req.params.id;
