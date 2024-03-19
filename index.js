@@ -7,7 +7,10 @@ const stripe = require("stripe")(`${process.env.STRIPE_SECRET_KEY}`);
 const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(express.json());
-app.use(cors('http://localhost:5173/'));
+app.use(cors([
+  'http://localhost:5173/',
+  'https://tea-and-coffee-16045.web.app/'
+]));
 app.use(cookieParser())
 
 
