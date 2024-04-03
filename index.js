@@ -32,6 +32,7 @@ async function run() {
     const userPurchaseProduct = client.db("tea-and-coffee").collection("purchaseproduct");
     const allPurchaseProduct = client.db("tea-and-coffee").collection("allpurchaseproduct");
     const UserPaymentData = client.db("tea-and-coffee").collection("UserPaymentData");
+    const CommenntData = client.db("tea-and-coffee").collection("commenntData");
 
     //  Get All Data
    
@@ -132,8 +133,34 @@ app.get('/lastedproduct',async(req,res)=>{
   const result =await allPurchaseProduct.insertOne(document);
   res.send(result)
  })
- app.put('updateproduct', async(req,res)=>{
 
+//  User Comment Data-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+app.post('usercomment',async(req,res)=>{
+  const data=req.body;
+  const result= await CommenntData.insertOne(data);
+  res.send(result)
+})
+//  User Comment Data-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+ app.put('/updateproduct/:id', async(req,res)=>{
+  const id=req.params.id
+const document = req.body;
+const options = { upsert: true };
+const filter={_id:new ObjectId(id)}
+const updatedoc = {
+  $set:{
+    type: document.type,
+    name: document.productname,
+    flavor: document.flavor,
+    caffeine_content: document.caffeine_content,
+    short_description: document.short_description,
+    long_description: document.long_description,
+    price: document.price,
+    image_url: document.image_url,
+  }
+}
+const result=await Products.updateOne(filter,updatedoc,options);
+res.send(result)
  })
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
