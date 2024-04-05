@@ -135,9 +135,13 @@ app.get('/lastedproduct',async(req,res)=>{
  })
 
 //  User Comment Data-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-app.post('usercomment',async(req,res)=>{
+app.post('/usercomment',async(req,res)=>{
   const data=req.body;
   const result= await CommenntData.insertOne(data);
+  res.send(result)
+})
+app.get('/allusercomment',async(req,res)=>{
+  const result =await CommenntData.find().toArray();
   res.send(result)
 })
 //  User Comment Data-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
